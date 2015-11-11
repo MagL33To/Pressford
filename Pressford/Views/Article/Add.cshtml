@@ -1,0 +1,19 @@
+﻿@model ArticleAddModel
+@{
+    ViewBag.Title = "Add article";
+}
+
+<h2>Add article</h2>
+
+<div>
+    @using (Html.BeginForm("SubmitArticle", "Article", FormMethod.Post))
+    {
+        @Html.LabelFor(x => x.Title, new { @class = "control-label col-sm-2" })
+        @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
+        
+        @Html.LabelFor(x => x.Body, new { @class = "control-label col-sm-2" })
+        @Html.TextAreaFor(x => x.Body, new { @class = "form-control", rows = "30" })
+
+        <button type="submit">Post article</button>
+    }
+</div>

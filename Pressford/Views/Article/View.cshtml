@@ -1,0 +1,52 @@
+﻿@model ArticleViewModel
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<h2>@Model.Title</h2>
+<div id="articleContent">
+    <span id="articleDetails">By: @Model.Author | Date: @Model.DateUpdated.ToShortDateString()</span>
+    @if (Model.IsUserAdmin)
+    {
+        <span>| 
+            @Html.ActionLink("Modify article", "Edit", new { id = Model.Id })
+        </span>
+    }
+    <p id="articleBody">@Model.Body</p>
+</div>
+<div ng-controller="ArticleController">
+    <span>Likes: {{likes}}</span> - <span><a href="#" ng-click="toggleLike()" ng-bind-html="likeText"></a></span>
+    <div>
+        <table class="table table-striped">
+            <tbody>
+                <tr ng-repeat="comment in comments">
+                    <td>
+                        <strong>{{comment.PostedBy}}</strong>
+                        <span>{{comment.Text}}</span>
+                        <br />
+                        <span>{{comment.PostedDate}}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <textarea ng-model="commentText" rows="5" cols="100"></textarea>
+        <br/>
+        <button ng-click="postComment()">Post comment</button>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var data = {
+            likedByUser : @Html.Raw(Model.IsLikedByUser.ToString().ToLower()),
+            likes : @Model.Likes,
+            comments : @Html.Raw(Json.Encode(Model.Comments)),
+            articleId : @Model.Id
+            };
+
+        app.value("articleData", data);
+    </script>
+}

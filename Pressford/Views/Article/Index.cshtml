@@ -1,0 +1,45 @@
+﻿@model ArticleIndexViewModel
+@{
+    ViewBag.Title = "Articles";
+}
+
+<h2>Articles</h2>
+<div id="indexArticlesContainer" class="clearfix">
+    <div id="indexArticles">
+        @foreach (var article in Model.Articles)
+        {
+            <div class="article">
+                <h3>@Html.ActionLink(article.Title, "View", new { id = article.Id })</h3>
+                <span>By: @article.Author | Date: @article.DateUpdated.ToShortDateString()</span>
+                <p>@Html.Raw(article.Body.Length > 100 ? article.Body.Substring(0, 100) + "..." : article.Body)</p>
+                <span>Likes: @article.Likes | Comments: @article.Comments.Count</span>
+            </div>
+        }
+        @if (Model.IsUserAdmin)
+        {
+            <div>
+                @Html.ActionLink("Add a new article...", "Add")
+            </div>
+        }
+    </div>
+    @if (Model.MostLikedArticles.Any())
+    {
+        <div id="indexMostLiked">
+            <table class="table table-striped table-bordered table-hover">
+                <tbody>
+                    <tr>
+                        <th>Article</th>
+                        <th>Likes</th>
+                    </tr>
+                    @foreach (var likedArticle in Model.MostLikedArticles)
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(likedArticle.Title, "View", new { id = likedArticle.Id })</td>
+                            <td>@likedArticle.Likes</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

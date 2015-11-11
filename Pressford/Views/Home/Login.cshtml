@@ -1,0 +1,19 @@
+﻿@model LoginModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+<div>
+    @using (Html.BeginForm("SignIn", "Home", FormMethod.Post))
+    {
+        @Html.LabelFor(x => x.Email, new { @class = "control-label col-sm-2" })
+        @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+        
+        @Html.LabelFor(x => x.Password, new { @class = "control-label col-sm-2" })
+        @Html.TextBoxFor(x => x.Password, new { @class = "form-control", type = "password" })
+
+        <button type="submit">Login</button>
+    }
+</div>
